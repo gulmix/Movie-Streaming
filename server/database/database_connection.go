@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
-func DBInstance() *mongo.Client {
+func Connect() *mongo.Client {
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Println("Warning: unable to find .env file")
@@ -31,7 +31,7 @@ func DBInstance() *mongo.Client {
 	return client
 }
 
-var Client *mongo.Client = DBInstance()
+var Client *mongo.Client = Connect()
 
 func OpenCollection(collectionName string) *mongo.Collection {
 	err := godotenv.Load(".env")
