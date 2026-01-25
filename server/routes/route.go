@@ -9,10 +9,10 @@ import (
 func SetupRoutes(router *gin.Engine) {
 	router.POST("/register", controllers.RegisterUser())
 	router.POST("/login", controllers.LoginUser())
+	router.GET("/movies", controllers.GetMovies())
 
 	router.Use(middleware.AuthMiddleware())
 
-	router.GET("/movies", controllers.GetMovies())
 	router.GET("/movie/:imdb_id", controllers.GetMovie())
 	router.POST("/movie", controllers.AddMovie())
 	router.GET("/recommended", controllers.GetRecommendedMovies())
