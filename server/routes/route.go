@@ -10,6 +10,7 @@ func SetupRoutes(router *gin.Engine) {
 	router.POST("/register", controllers.RegisterUser())
 	router.POST("/login", controllers.LoginUser())
 	router.GET("/movies", controllers.GetMovies())
+	router.GET("/genres", controllers.GetGenres())
 
 	router.Use(middleware.AuthMiddleware())
 

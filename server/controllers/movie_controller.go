@@ -24,6 +24,7 @@ import (
 
 var movieCollection *mongo.Collection = database.OpenCollection("movies")
 var rankingCollection *mongo.Collection = database.OpenCollection("rankings")
+var genreCollection *mongo.Collection = database.OpenCollection("genres")
 var validate = validator.New()
 
 func GetMovies() gin.HandlerFunc {
@@ -324,4 +325,27 @@ func GetUsersFavoriteGenres(userId string) ([]string, error) {
 	}
 
 	return genreNames, nil
+}
+
+func GetGenres() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		var genres []models.Genre
+
+		cursor, err := genreCollection.Find(ctx, bson.M{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching movie genres"})
+			return
+		}
+		defer cursor.Close(ctx)
+
+		if err := cursor.All(ctx, &genres); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, genres)
+	}
 }
