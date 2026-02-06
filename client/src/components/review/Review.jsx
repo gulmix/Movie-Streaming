@@ -39,7 +39,7 @@ const Review = () => {
         setLoading(true);
         try {
             
-            const response = await axiosPrivate.patch(`/updatereview/${imdb_id}`, { admin_review: revText.current.value });
+            const response = await axiosPrivate.patch(`/review/${imdb_id}`, { admin_review: revText.current.value });
             console.log(response.data);           
 
             setMovie(() => ({
